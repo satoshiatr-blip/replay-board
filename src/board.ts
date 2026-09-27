@@ -168,7 +168,7 @@ export function drawBoard(ctx: Ctx, x: number, y: number, w: number, h: number, 
       continue
     }
     if (pc.id === v.selectedId) {
-      ctx.strokeStyle = '#2ef2b4'
+      ctx.strokeStyle = '#ff8a1f'
       ctx.lineWidth = r * 0.25
       ctx.beginPath()
       ctx.arc(cx, cy, r * 1.45, 0, Math.PI * 2)

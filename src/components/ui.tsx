@@ -14,7 +14,7 @@ export const Card = ({ children, className = '' }: { children: ReactNode; classN
 // 画面ごとの見出し：小さな英字ラベル＋斜体の大見出し
 export const ScreenTitle = ({ step, en, title, sub }: { step: string; en: string; title: string; sub?: string }) => (
   <div className="mb-5">
-    <p className="text-[11px] font-black italic tracking-[0.25em] text-cyan">STEP {step} — {en}</p>
+    <p className="text-[11px] font-black italic tracking-[0.25em] text-accent">STEP {step} — {en}</p>
     <h2 className="mt-1 text-2xl font-black italic -skew-x-6 origin-left">{title}</h2>
     {sub && <p className="mt-1 text-sm text-muted">{sub}</p>}
   </div>
@@ -31,11 +31,11 @@ export const Field = ({ label, children }: { label: string; children: ReactNode 
   </label>
 )
 
-export const inputCls = 'w-full h-12 rounded-xl bg-raised border border-line px-3.5 text-base text-fg placeholder:text-muted/60 focus:outline-none focus:border-cyan focus:ring-2 focus:ring-cyan/30 transition'
+export const inputCls = 'w-full h-12 rounded-xl bg-raised border border-line px-3.5 text-base text-fg placeholder:text-muted/60 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition'
 
 type BtnProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' | 'danger' }
 const VARIANT = {
-  primary: 'bg-[linear-gradient(110deg,#2ef2b4,#1a7cff)] text-ink shadow-[0_6px_24px_-6px_rgba(46,242,180,0.55)]',
+  primary: 'bg-[linear-gradient(110deg,#ffb020,#ff6a1f)] text-ink shadow-[0_6px_24px_-6px_rgba(255,138,31,0.55)]',
   secondary: 'bg-raised text-fg border border-line',
   ghost: 'text-muted',
   danger: 'text-danger',
@@ -47,7 +47,7 @@ export const Button = ({ variant = 'secondary', className = '', ...p }: BtnProps
 
 export const Toggle = ({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) => (
   <button role="switch" aria-checked={checked} aria-label={label} onClick={() => onChange(!checked)}
-    className={`relative w-13 h-8 rounded-full transition ${checked ? 'bg-brand shadow-[0_0_12px_rgba(26,124,255,0.6)]' : 'bg-line'}`}>
+    className={`relative w-13 h-8 rounded-full transition ${checked ? 'bg-brand shadow-[0_0_12px_rgba(255,138,31,0.6)]' : 'bg-line'}`}>
     <span className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow transition-transform ${checked ? 'translate-x-5' : ''}`} />
   </button>
 )

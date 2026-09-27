@@ -38,7 +38,7 @@ export default function VideoFrame({ file, time, caption }: { file: File | null;
       )}
       {!file && <p className="absolute inset-0 grid place-items-center text-sm text-muted">動画を選んでください</p>}
       {caption && (
-        <p className="absolute left-2.5 bottom-2.5 max-w-[85%] truncate rounded-md bg-black/70 border-l-[3px] border-cyan pl-2.5 pr-3 py-1 text-[13px] font-extrabold">{caption}</p>
+        <p className="absolute left-2.5 bottom-2.5 max-w-[85%] truncate rounded-md bg-black/70 border-l-[3px] border-accent pl-2.5 pr-3 py-1 text-[13px] font-extrabold">{caption}</p>
       )}
     </div>
   )

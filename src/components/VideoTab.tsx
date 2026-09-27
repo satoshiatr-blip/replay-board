@@ -39,7 +39,7 @@ export default function VideoTab({ project: p, setProject, file, addFile, next }
       {!p.source || !file ? (
         <Card className="text-center space-y-3">
           {p.source && <p className="text-sm text-muted">前回の動画「{p.source.name}」をもう一度選んでください</p>}
-          <FilePicker multiple={false} onFiles={addFile} className="w-full min-h-14 rounded-xl bg-[linear-gradient(110deg,#2ef2b4,#1a7cff)] text-ink">
+          <FilePicker multiple={false} onFiles={addFile} className="w-full min-h-14 rounded-xl bg-[linear-gradient(110deg,#ffb020,#ff6a1f)] text-ink">
             <IconVideo className="text-xl" />試合の動画を選ぶ
           </FilePicker>
         </Card>
@@ -47,7 +47,7 @@ export default function VideoTab({ project: p, setProject, file, addFile, next }
         <Card className="space-y-3">
           <VideoFrame file={file} time={t} />
           <div className="relative">
-            <div className="absolute top-1/2 -translate-y-1/2 h-2 rounded-full bg-cyan/35 pointer-events-none"
+            <div className="absolute top-1/2 -translate-y-1/2 h-2 rounded-full bg-accent/35 pointer-events-none"
               style={{ left: `${(p.clipStart / dur) * 100}%`, width: `${(len / dur) * 100}%` }} />
             <input type="range" className="relative w-full h-8" min={0} max={dur} step={0.05} value={t} onChange={e => setT(Number(e.target.value))} />
           </div>

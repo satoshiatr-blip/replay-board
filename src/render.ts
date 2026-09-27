@@ -10,7 +10,7 @@ export const OUT_H = 1920
 export const FPS = 30
 const SAMPLE_RATE = 48000
 const FONT = '-apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif'
-const ACC = '#2ef2b4'
+const ACC = '#ff8a1f'
 
 // 縦長の画面の割り付け
 const HEAD_H = 190
@@ -43,8 +43,8 @@ export function drawFrame(ctx: Ctx, p: Project, frame: CanvasImageSource | null,
   ctx.fillRect(0, 0, OUT_W, OUT_H)
   // 見出し
   const g = ctx.createLinearGradient(0, 0, OUT_W, 0)
-  g.addColorStop(0, '#071410')
-  g.addColorStop(1, '#0a1226')
+  g.addColorStop(0, '#0a1226')
+  g.addColorStop(1, '#161022')
   ctx.fillStyle = g
   ctx.fillRect(0, 0, OUT_W, HEAD_H)
   ctx.fillStyle = ACC

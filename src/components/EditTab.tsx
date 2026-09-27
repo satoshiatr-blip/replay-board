@@ -68,7 +68,7 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
         <div className="relative h-5 mx-2">
           {kfs.map(k => (
             <button key={k.id} onClick={() => setT(k.t)} aria-label={`${fmt(k.t)}の◆`}
-              className={`absolute top-0 -translate-x-1/2 text-base leading-none ${k === cur ? 'text-cyan drop-shadow-[0_0_6px_#2ef2b4]' : 'text-fg/70'}`}
+              className={`absolute top-0 -translate-x-1/2 text-base leading-none ${k === cur ? 'text-accent drop-shadow-[0_0_6px_#ff8a1f]' : 'text-fg/70'}`}
               style={{ left: `${(k.t / len) * 100}%` }}>◆</button>
           ))}
         </div>
@@ -84,7 +84,7 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
       <div className="flex gap-1.5">
         {([['move', '動かす', IconHand], ['arrow', '矢印', IconArrow], ['zone', '範囲', IconZone]] as const).map(([id, label, Icon]) => (
           <button key={id} onClick={() => setTool(id)}
-            className={`flex-1 min-h-11 rounded-xl text-[13px] font-bold flex items-center justify-center gap-1 border ${tool === id ? 'bg-cyan text-ink border-cyan' : 'bg-raised border-line text-fg'}`}>
+            className={`flex-1 min-h-11 rounded-xl text-[13px] font-bold flex items-center justify-center gap-1 border ${tool === id ? 'bg-accent text-ink border-accent' : 'bg-raised border-line text-fg'}`}>
             <Icon className="text-base" />{label}
           </button>
         ))}
@@ -104,8 +104,8 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
 
       {/* 今の◆ */}
       {cur ? (
-        <div className="rounded-2xl border border-cyan/40 bg-surface p-3 space-y-2.5">
-          <p className="text-xs font-bold text-cyan">◆ {fmt(cur.t)} の説明（次の◆まで動画の左下に出ます）</p>
+        <div className="rounded-2xl border border-accent/40 bg-surface p-3 space-y-2.5">
+          <p className="text-xs font-bold text-accent">◆ {fmt(cur.t)} の説明（次の◆まで動画の左下に出ます）</p>
           <input className={inputCls} maxLength={30} placeholder="例：ここで裏へ走る" value={cur.caption}
             onChange={e => { const v = e.target.value; upsert(k => ({ ...k, caption: v })) }} />
           <div className="flex gap-2">
@@ -129,7 +129,7 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
           <div className="grid grid-cols-4 gap-2">
             {([3, 5, 8, 11] as Mode[]).map(m => (
               <button key={m} onClick={() => setMode(m)}
-                className={`min-h-14 rounded-xl font-black text-lg border ${p.mode === m ? 'bg-cyan text-ink border-cyan' : 'bg-raised border-line'}`}>
+                className={`min-h-14 rounded-xl font-black text-lg border ${p.mode === m ? 'bg-accent text-ink border-accent' : 'bg-raised border-line'}`}>
                 {m}<span className="text-xs font-bold">人制</span>
               </button>
             ))}
@@ -152,7 +152,7 @@ function Sheet({ title, onClose, children }: { title: string; onClose: () => voi
           onClick={e => e.stopPropagation()}>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-black">{title}</h3>
-            <button className="min-h-10 px-3 text-cyan font-bold" onClick={onClose}>完了</button>
+            <button className="min-h-10 px-3 text-accent font-bold" onClick={onClose}>完了</button>
           </div>
           {children}
         </div>
@@ -184,7 +184,7 @@ function PieceSheet({ id, project: p, setProject, onClose }: ProjectProps & { id
           <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
             {roster.map((r, i) => (
               <button key={i} onClick={() => set({ number: r.number, name: r.name })}
-                className={`min-h-9 px-3 rounded-full border text-sm font-bold ${pc.name === r.name && pc.number === r.number ? 'bg-cyan text-ink border-cyan' : 'bg-raised border-line'}`}>
+                className={`min-h-9 px-3 rounded-full border text-sm font-bold ${pc.name === r.name && pc.number === r.number ? 'bg-accent text-ink border-accent' : 'bg-raised border-line'}`}>
                 {r.number && <span className="opacity-60 mr-1">{r.number}</span>}{r.name}
               </button>
             ))}

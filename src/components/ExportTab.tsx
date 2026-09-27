@@ -80,7 +80,7 @@ export default function ExportTab({ project: p, setProject, file, addFile }: Pro
         <Card className="space-y-3">
           <p className="text-sm font-bold">{progress.label || '準備中'}</p>
           <div className="h-2 rounded-full bg-raised overflow-hidden">
-            <div className="h-full bg-[linear-gradient(90deg,#2ef2b4,#1a7cff)] transition-[width]" style={{ width: `${progress.p * 100}%` }} />
+            <div className="h-full bg-[linear-gradient(90deg,#ffb020,#ff6a1f)] transition-[width]" style={{ width: `${progress.p * 100}%` }} />
           </div>
           <p className="text-xs text-muted">画面を開いたままお待ちください</p>
           <Button className="w-full" onClick={() => abortRef.current?.abort()}>中止</Button>
