@@ -15,6 +15,9 @@ export type SourceMeta = { key: string; name: string; size: number; duration: nu
 
 export type Mode = 3 | 5 | 8 | 11
 
+// ボードに映す範囲。top＝相手陣（上半分）、bottom＝自陣（下半分）
+export type PitchView = 'full' | 'top' | 'bottom'
+
 export type Project = {
   title: string
   date: string
@@ -27,6 +30,7 @@ export type Project = {
   // ◆をまだ記録していないときの位置（人数を選んだときの初期配置）
   base: Record<string, Pt>
   showAway: boolean
+  view: PitchView
   showNames: boolean
   keyframes: Keyframe[]
   gameVolume: number

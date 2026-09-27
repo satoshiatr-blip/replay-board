@@ -1,4 +1,4 @@
-import type { Drawing, Keyframe, Piece, Pt } from './types'
+import type { Drawing, Keyframe, Piece, PitchView, Pt } from './types'
 
 type Ctx = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
 
@@ -13,13 +13,25 @@ const FONT = '-apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v))
 const smooth = (u: number) => u * u * (3 - 2 * u)
 
-// 枠（w×h）の中にピッチを収めたときの位置と大きさ
-export function pitchRect(w: number, h: number) {
+// 映す縦の範囲（0＝相手ゴール、1＝自陣ゴール）。半分表示でもセンターサークルが少し見えるよう余白を足す
+const VIEW_RANGE: Record<PitchView, [number, number]> = { full: [0, 1], top: [-0.02, 0.58], bottom: [0.42, 1.02] }
+
+// ボードの枠の縦横比（高さ÷幅）
+export const boardAspect = (view: PitchView = 'full') => {
+  const [a, b] = VIEW_RANGE[view]
+  return (PITCH_RATIO * (b - a) * 0.9 + 0.1) / 1
+}
+
+// 枠（w×h）の中にピッチの映す範囲を収めたときの、ピッチ全体の位置と大きさ（範囲の外は枠で切れる）
+export function pitchRect(w: number, h: number, view: PitchView = 'full') {
+  const [a, b] = VIEW_RANGE[view]
+  const f = b - a
   const pad = Math.min(w, h) * 0.05
   let pw = w - pad * 2
-  let ph = pw * PITCH_RATIO
-  if (ph > h - pad * 2) { ph = h - pad * 2; pw = ph / PITCH_RATIO }
-  return { px: (w - pw) / 2, py: (h - ph) / 2, pw, ph }
+  let vh = pw * PITCH_RATIO * f
+  if (vh > h - pad * 2) { vh = h - pad * 2; pw = vh / (PITCH_RATIO * f) }
+  const ph = pw * PITCH_RATIO
+  return { px: (w - pw) / 2, py: (h - vh) / 2 - a * ph, pw, ph }
 }
 
 // ---- 時間と位置 ----
@@ -65,8 +77,8 @@ export function trailsAt(kfs: Keyframe[], base: Record<string, Pt>, t: number) {
   return out
 }
 
-export function hitPiece(pieces: Piece[], pos: Record<string, Pt>, w: number, h: number, x: number, y: number, showAway: boolean) {
-  const { px, py, pw, ph } = pitchRect(w, h)
+export function hitPiece(pieces: Piece[], pos: Record<string, Pt>, w: number, h: number, x: number, y: number, showAway: boolean, view?: PitchView) {
+  const { px, py, pw, ph } = pitchRect(w, h, view)
   const r = pieceRadius(pw) * 1.5
   let best: string | null = null, bestD = Infinity
   for (const pc of pieces) {
@@ -79,8 +91,8 @@ export function hitPiece(pieces: Piece[], pos: Record<string, Pt>, w: number, h:
   return best
 }
 
-export const toPitch = (w: number, h: number, x: number, y: number): Pt => {
-  const { px, py, pw, ph } = pitchRect(w, h)
+export const toPitch = (w: number, h: number, x: number, y: number, view?: PitchView): Pt => {
+  const { px, py, pw, ph } = pitchRect(w, h, view)
   return [clamp((x - px) / pw, -0.03, 1.03), clamp((y - py) / ph, -0.03, 1.03)]
 }
 
@@ -97,10 +109,11 @@ export type BoardView = {
   showNames: boolean
   showAway: boolean
   selectedId?: string | null
+  view?: PitchView
 }
 
 export function drawBoard(ctx: Ctx, x: number, y: number, w: number, h: number, v: BoardView) {
-  const { px, py, pw, ph } = pitchRect(w, h)
+  const { px, py, pw, ph } = pitchRect(w, h, v.view)
   const X = (p: Pt) => x + px + p[0] * pw
   const Y = (p: Pt) => y + py + p[1] * ph
   ctx.save()

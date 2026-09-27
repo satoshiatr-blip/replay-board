@@ -2,7 +2,7 @@ import {
   ALL_FORMATS, AudioBufferSource, AudioSampleSink, BlobSource, BufferTarget, CanvasSink, CanvasSource,
   Input, Mp4OutputFormat, Output, QUALITY_HIGH, canEncodeAudio, canEncodeVideo,
 } from 'mediabunny'
-import { activeKf, drawBoard, positionsAt, trailsAt } from './board'
+import { activeKf, boardAspect, drawBoard, positionsAt, trailsAt } from './board'
 import type { Project } from './types'
 
 export const OUT_W = 1080
@@ -85,7 +85,9 @@ export function drawFrame(ctx: Ctx, p: Project, frame: CanvasImageSource | null,
 
   // 作戦ボード
   const k = activeKf(p.keyframes, t)
-  drawBoard(ctx, BOARD.x, BOARD.y, BOARD.w, BOARD.h, {
+  // 半分表示は横長になるので、空いた上下を詰めて中央に置く
+  const bh = Math.min(BOARD.h, BOARD.w * boardAspect(p.view))
+  drawBoard(ctx, BOARD.x, BOARD.y + (BOARD.h - bh) / 2, BOARD.w, bh, {
     pieces: p.pieces,
     pos: positionsAt(p.keyframes, p.base, t),
     drawings: k?.drawings ?? [],
@@ -93,6 +95,7 @@ export function drawFrame(ctx: Ctx, p: Project, frame: CanvasImageSource | null,
     trails: trailsAt(p.keyframes, p.base, t),
     showNames: p.showNames,
     showAway: p.showAway,
+    view: p.view,
   })
   ctx.fillStyle = 'rgba(140,152,179,0.8)'
   ctx.font = `700 28px ${FONT}`

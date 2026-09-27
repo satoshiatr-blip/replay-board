@@ -32,6 +32,7 @@ export const emptyProject = (): Project => {
     pieces,
     base,
     showAway: true,
+    view: 'full',
     showNames: true,
     keyframes: [],
     gameVolume: 0.9,

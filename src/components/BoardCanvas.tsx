@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { drawBoard, hitPiece, toPitch, type BoardView } from '../board'
+import { boardAspect, drawBoard, hitPiece, toPitch, type BoardView } from '../board'
 import type { Drawing, Pt } from '../types'
 import { uid } from '../types'
 
@@ -51,7 +51,7 @@ export default function BoardCanvas({ tool = 'move', onMoveStart, onMove, onDraw
     const [x, y] = at(e)
     e.currentTarget.setPointerCapture(e.pointerId)
     if (tool === 'move') {
-      const id = hitPiece(view.pieces, view.pos, size.w, size.h, x, y, view.showAway)
+      const id = hitPiece(view.pieces, view.pos, size.w, size.h, x, y, view.showAway, view.view)
       if (!id) return
       const timer = window.setTimeout(() => {
         if (g.current && !g.current.moved && id !== 'ball') { g.current.long = true; navigator.vibrate?.(15); onLongPress?.(id) }
@@ -59,7 +59,7 @@ export default function BoardCanvas({ tool = 'move', onMoveStart, onMove, onDraw
       g.current = { id, x0: x, y0: y, moved: false, long: false, timer }
       return
     }
-    const p = toPitch(size.w, size.h, x, y)
+    const p = toPitch(size.w, size.h, x, y, view.view)
     g.current = { id: null, x0: x, y0: y, moved: false, long: false, timer: 0 }
     setDraft({ id: uid(), kind: tool, pts: [p, p] })
   }
@@ -71,7 +71,7 @@ export default function BoardCanvas({ tool = 'move', onMoveStart, onMove, onDraw
     if (!s.moved && Math.hypot(x - s.x0, y - s.y0) < 6) return
     if (s.long) return
     if (!s.moved) { s.moved = true; clearTimeout(s.timer); if (s.id) onMoveStart?.() }
-    const p = toPitch(size.w, size.h, x, y)
+    const p = toPitch(size.w, size.h, x, y, view.view)
     if (s.id) { onMove?.(s.id, p); return }
     setDraft(d => {
       if (!d) return d
@@ -93,7 +93,7 @@ export default function BoardCanvas({ tool = 'move', onMoveStart, onMove, onDraw
   }
 
   return (
-    <div ref={wrap} className="w-full aspect-[1/1.33] select-none">
+    <div ref={wrap} className="w-full select-none" style={{ aspectRatio: `1 / ${boardAspect(view.view)}` }}>
       <canvas ref={cv} className="w-full h-full touch-none" style={{ WebkitTouchCallout: 'none' } as React.CSSProperties}
         onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onContextMenu={e => e.preventDefault()} />
     </div>
