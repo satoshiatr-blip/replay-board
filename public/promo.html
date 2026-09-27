@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-512.png">
+<title>REPLAY BOARD</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#04060c;font-family:'Noto Sans JP',sans-serif;color:#eaf0ff;max-width:480px;margin:0 auto;}
+/* 日本語を単語の途中で折らない（改行は助詞・読点の後ろだけ。印は下のスクリプトで付ける） */
+body{word-break:keep-all;overflow-wrap:anywhere;line-break:strict;}
+.sec{padding:48px 20px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.lbl{font-size:9px;font-weight:700;letter-spacing:3px;color:#ff8a1f;text-transform:uppercase;margin-bottom:4px;}
+.sech{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;margin-bottom:20px;}
+.hero{padding:56px 20px 40px;border-bottom:1px solid rgba(255,255,255,0.05);background:radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255,138,31,0.08) 0%, transparent 70%);}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-weight:700;letter-spacing:2px;color:#ff8a1f;background:rgba(255,138,31,0.08);border:1px solid rgba(255,138,31,0.2);padding:5px 12px;border-radius:100px;margin-bottom:20px;}
+.live{width:6px;height:6px;border-radius:50%;background:#ff8a1f;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:64px;letter-spacing:3px;line-height:0.95;margin-bottom:14px;}
+.hero-h1 em{color:#ff8a1f;font-style:normal;display:block;}
+.hero-desc{font-size:13px;color:rgba(234,240,255,0.55);line-height:1.7;margin-bottom:24px;}
+.hero-desc strong{color:#eaf0ff;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.05);border-radius:12px;overflow:hidden;margin-top:20px;}
+.stat{background:#04060c;padding:14px 6px;text-align:center;}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#ff8a1f;line-height:1;}
+.stat-l{font-size:9px;color:rgba(234,240,255,0.4);margin-top:2px;letter-spacing:0.3px;}
+.cta-box{background:rgba(255,138,31,0.12);border:2px solid rgba(255,138,31,0.5);border-radius:14px;padding:18px 20px;text-align:center;}
+.cta-box-l{font-size:11px;color:rgba(255,138,31,0.6);letter-spacing:2px;font-weight:700;margin-bottom:6px;}
+.cta-box-m{font-size:22px;font-weight:900;color:#ff8a1f;letter-spacing:1px;}
+.cta-box-u{font-size:10px;color:rgba(255,138,31,0.45);margin-top:6px;font-family:'Space Mono',monospace;word-break:break-all;}
+.steps{display:flex;flex-direction:column;gap:8px;}
+.step{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:28px;color:rgba(255,138,31,0.2);line-height:1;width:28px;flex-shrink:0;text-align:center;}
+.st{font-weight:900;font-size:13px;}
+.sd{font-size:11px;color:rgba(234,240,255,0.45);margin-top:2px;line-height:1.5;}
+.stag{margin-left:auto;flex-shrink:0;font-size:9px;font-weight:700;color:rgba(255,138,31,0.6);background:rgba(255,138,31,0.07);border:1px solid rgba(255,138,31,0.15);padding:3px 8px;border-radius:100px;white-space:nowrap;}
+.feats{display:flex;flex-direction:column;gap:10px;}
+.feat{display:flex;gap:12px;background:rgba(255,138,31,0.02);border:1px solid rgba(255,138,31,0.15);border-radius:12px;padding:14px 16px;}
+.fi{font-size:22px;flex-shrink:0;line-height:1;}
+.ft{font-weight:900;font-size:13px;color:#eaf0ff;margin-bottom:3px;}
+.fd{font-size:11px;color:rgba(234,240,255,0.55);line-height:1.6;}
+.cta{padding:48px 20px;text-align:center;}
+.cta-h{font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:4px;margin-bottom:8px;}
+.cta-s{font-size:12px;color:rgba(234,240,255,0.4);margin-bottom:24px;letter-spacing:1px;}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+.chip{font-size:10px;font-weight:700;letter-spacing:0.5px;padding:5px 11px;border-radius:100px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);color:rgba(234,240,255,0.4);}
+
+:root{--g:linear-gradient(110deg,#ffb020,#ff6a1f);}
+.hero{background:radial-gradient(ellipse 70% 45% at 20% 0%,rgba(255,138,31,0.16) 0%,transparent 70%);}
+.hero::before{content:"";display:block;width:92px;height:92px;border-radius:22%;background:url(icon-512.png?v=2) center/cover;margin-bottom:22px;box-shadow:0 0 28px rgba(255,138,31,0.35);}
+.hero-h1 em{width:fit-content;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.live{background:#ff8a1f;box-shadow:0 0 8px #ff8a1f;}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="REPLAY BOARD">
+<meta property="og:description" content="試合の動きを、作戦ボードで振り返る。少年サッカー向けの無料Webアプリ">
+<meta property="og:url" content="https://satoshiatr-blip.github.io/replay-board/promo.html">
+<meta property="og:image" content="https://satoshiatr-blip.github.io/replay-board/og-replay-v2.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag"><span class="live"></span>少年サッカー向け 無料Webアプリ</div>
+  <div class="hero-h1">REPLAY<em>BOARD</em></div>
+  <p class="hero-desc">試合のワンシーンの下に作戦ボード。<br>選手の動きをコマで再現して、<br><strong>縦長の動画</strong>で振り返れます。</p>
+  <a href="https://satoshiatr-blip.github.io/replay-board/" target="_blank" style="text-decoration:none;display:block;">
+    <div class="cta-box">
+      <div class="cta-box-l">インストール不要・完全無料</div>
+      <div class="cta-box-m">&#9654; タップして開く</div>
+      <div class="cta-box-u">satoshiatr-blip.github.io/replay-board/</div>
+    </div>
+  </a>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">9:16</div><div class="stat-l">縦長の動画</div></div>
+    <div class="stat"><div class="stat-n">3〜11人</div><div class="stat-l">人数を選べる</div></div>
+    <div class="stat"><div class="stat-n">0円</div><div class="stat-l">完全無料</div></div>
+    <div class="stat"><div class="stat-n">不要</div><div class="stat-l">インストール</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Getting Started</div>
+  <h2 class="sech">はじめ方</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div><div class="st">🎥 動画から場面を選ぶ</div><div class="sd">振り返りたいところを30秒まで切り出します</div></div>
+      <div class="stag">動画</div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div><div class="st">🧩 コマを動かす</div><div class="sd">動かした時点に◆が付きます</div></div>
+      <div class="stag">配置</div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div><div class="st">▶️ 動画と一緒に再生</div><div class="sd">◆のあいだは、コマがなめらかに動きます</div></div>
+      <div class="stag">再生</div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div><div class="st">📤 書き出して保存</div><div class="sd">「ビデオを保存」で写真アプリへ</div></div>
+      <div class="stag">書き出し</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" style="background:rgba(255,138,31,0.015);">
+  <div class="lbl">Feature</div>
+  <h2 class="sech">できること</h2>
+  <div class="feats">
+    <div class="feat">
+      <div class="fi">🎞️</div>
+      <div><div class="ft">動画に合わせてコマが動く</div><div class="fd">コマを動かした時点（◆）のあいだを、なめらかにつなぎます</div></div>
+    </div>
+    <div class="feat">
+      <div class="fi">💬</div>
+      <div><div class="ft">◆ごとに説明を残せる</div><div class="fd">「ここで裏へ走る」などの一言を、<br>次の◆まで動画の左下に出せます</div></div>
+    </div>
+    <div class="feat">
+      <div class="fi">↗️</div>
+      <div><div class="ft">矢印と範囲</div><div class="fd">走るコースや空いたスペースを、指でなぞって描けます</div></div>
+    </div>
+    <div class="feat">
+      <div class="fi">🏷️</div>
+      <div><div class="ft">コマに名前を付ける</div><div class="fd">長押しで背番号と名前を変えられます。<br>他のアプリの選手名簿からも選べます</div></div>
+    </div>
+    <div class="feat">
+      <div class="fi">🔍</div>
+      <div><div class="ft">半分だけ大きく</div><div class="fd">ピッチ全体のほか、相手陣だけ・自陣だけを大きく映せます</div></div>
+    </div>
+    <div class="feat">
+      <div class="fi">🔒</div>
+      <div><div class="ft">動画は外に出ない</div><div class="fd">動画はサーバーに送りません。すべてこの端末の中で完結します</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta">
+  <div class="lbl" style="margin-bottom:8px;">今すぐ無料で使う</div>
+  <div class="cta-h">OPEN &amp; PLAY</div>
+  <p class="cta-s">登録・インストール不要。タップするだけで即起動。</p>
+  <a href="https://satoshiatr-blip.github.io/replay-board/" target="_blank" style="text-decoration:none;display:block;">
+    <div class="cta-box">
+      <div class="cta-box-l">完全無料・今すぐ使える</div>
+      <div class="cta-box-m">&#9654; タップして開く</div>
+      <div class="cta-box-u">satoshiatr-blip.github.io/replay-board/</div>
+    </div>
+  </a>
+  <div class="chips">
+    <span class="chip">&#10003; 完全無料</span>
+    <span class="chip">&#10003; iPhone対応</span>
+    <span class="chip">&#10003; インストール不要</span>
+    <span class="chip">&#10003; データは端末内のみ</span>
+  </div>
+</div>
+
+<script>
+// 助詞・読点の後ろに改行できる印（ゼロ幅スペース）を入れる。続く文字がひらがなのとき（「できます」の「で」など）と「その」「この」の後ろには入れない
+(function(){
+  var re=/((?:[はがをにでともへや、。」）]|(?<![そこあど])の))(?=[^ぁ-ゟ、。」）！？!?\s])/g;
+  var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n;
+  while((n=w.nextNode())){ if(/[぀-鿿]/.test(n.data)) n.data=n.data.replace(re,'$1​'); }
+})();
+</script>
+</body>
+</html>
