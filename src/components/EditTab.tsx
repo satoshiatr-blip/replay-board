@@ -94,7 +94,10 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
           className="min-h-11 px-2.5 rounded-xl bg-raised border border-line text-[13px] font-bold flex items-center gap-1"><IconPeople className="text-base" />{p.mode}人</button>
       </div>
 
-      <div className="mx-auto" style={{ maxWidth: `max(230px, calc((var(--app-height, 100vh) - 500px) / ${boardAspect(p.view)}))` }}>
+      <Segmented<PitchView> value={p.view} onChange={v => setProject(q => ({ ...q, view: v }))}
+        options={[{ v: 'full', label: 'ピッチ全体' }, { v: 'top', label: '相手陣だけ' }, { v: 'bottom', label: '自陣だけ' }]} />
+
+      <div className="mx-auto" style={{ maxWidth: `max(230px, calc((var(--app-height, 100vh) - 560px) / ${boardAspect(p.view)}))` }}>
         <BoardCanvas tool={tool} pieces={p.pieces} pos={pos} drawings={cur?.drawings ?? active?.drawings ?? []} drawAlpha={cur ? 1 : 0.45}
           trails={cur ? [] : trailsAt(p.keyframes, p.base, t)} showNames={p.showNames} showAway={p.showAway} view={p.view} selectedId={editId}
           onMoveStart={pushUndo} onMove={moveTo}
@@ -125,8 +128,7 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
       {editing && <PieceSheet key={editing.id} id={editing.id} {...{ project: p, setProject }} onClose={() => setEditId(null)} />}
 
       {modeSheet && (
-        <Sheet onClose={() => setModeSheet(false)} title="ボードの設定">
-          <p className="text-xs text-muted mb-1.5">人数</p>
+        <Sheet onClose={() => setModeSheet(false)} title="人数">
           <div className="grid grid-cols-4 gap-2">
             {([3, 5, 8, 11] as Mode[]).map(m => (
               <button key={m} onClick={() => setMode(m)}
@@ -135,9 +137,6 @@ export default function EditTab({ project: p, setProject, file }: ProjectProps &
               </button>
             ))}
           </div>
-          <p className="text-xs text-muted mt-4 mb-1.5">映す範囲</p>
-          <Segmented<PitchView> value={p.view} onChange={v => setProject(q => ({ ...q, view: v }))}
-            options={[{ v: 'full', label: '全体' }, { v: 'top', label: '相手陣' }, { v: 'bottom', label: '自陣' }]} />
           <div className="flex items-center justify-between min-h-12 mt-3">
             <span className="font-medium">相手チームを出す</span>
             <Toggle label="相手チームを出す" checked={p.showAway} onChange={v => setProject(q => ({ ...q, showAway: v }))} />
